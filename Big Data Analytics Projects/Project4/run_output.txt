@@ -1,0 +1,103 @@
+=== Quick Stats ===
+Users:   943
+Movies:  1682
+Ratings: 100000
+
+Rating value counts:
+rating
+1     6110
+2    11370
+3    27145
+4    34174
+5    21201
+Name: count, dtype: int64
+
+Per-user ratings:
+min=20, mean=106.04, max=737
+
+=== Map Sanity Checks ===
+user_ratings users: 943
+movie_ratings movies: 1682
+User 1: 272 ratings, mean=3.610
+User 2: 62 ratings, mean=3.710
+User 943: 168 ratings, mean=3.411
+Movie 1: 452 ratings
+Movie 50: 583 ratings
+Movie 1682: 1 ratings
+Total ratings in maps: 100000
+
+=== Split Sanity Checks ===
+Test users: 189
+Total hidden ratings: 3780
+Test users missing hidden list: 0
+User 4: visible=19, hidden=5
+User 7: visible=322, hidden=81
+User 12: visible=41, hidden=10
+User 26: visible=86, hidden=21
+User 28: visible=63, hidden=16
+
+=== Bonus: Item-Item KNN (Adjusted Cosine) ===
+method,k,MSE,RMSE
+item_adjcos,5,1.0485,1.0239
+item_adjcos,10,0.9522,0.9758
+item_adjcos,20,0.9049,0.9513
+item_adjcos,40,0.8914,0.9441
+
+Examples for item_adjcos (k=40): MSE=0.8914, RMSE=0.9441
+  Best:
+    (abs_err=0.000) user=644, movie=276 (Leaving Las Vegas (1995)), true=4.0, pred=4.000
+    (abs_err=0.000) user=782, movie=1191 (Letter From Death Row, A (1998)), true=3.0, pred=3.000
+    (abs_err=0.000) user=542, movie=523 (Cool Hand Luke (1967)), true=4.0, pred=4.000
+  Worst:
+    (abs_err=3.940) user=739, movie=465 (Jungle Book, The (1994)), true=1.0, pred=4.940
+    (abs_err=3.480) user=12, movie=200 (Shining, The (1980)), true=1.0, pred=4.480
+    (abs_err=3.457) user=239, movie=318 (Schindler's List (1993)), true=1.0, pred=4.457
+
+=== Training Map Checks ===
+Train users: 943 (should be 943)
+Train movies: 1672 (<= 1682)
+Global mean (train): 3.5290
+
+Sim check users 4 vs 7:
+cosine  = 0.8510
+pearson = -0.2402
+
+=== Experiments (User-User KNN) ===
+method,k,MSE,RMSE
+cosine,5,1.0428,1.0212
+cosine,10,0.9725,0.9861
+cosine,20,0.9221,0.9603
+cosine,40,0.9050,0.9513
+
+Examples for cosine (k=20):
+  Best (abs_err, user, movie, true, pred):
+    (0.0, 118, 134, 5.0, 5.0)
+    (0.0, 118, 156, 5.0, 5.0)
+    (0.0, 118, 174, 5.0, 5.0)
+  Worst (abs_err, user, movie, true, pred):
+    (3.8360280195215255, 239, 318, 1.0, 4.8360280195215255)
+    (3.6776334040484207, 12, 200, 1.0, 4.677633404048421)
+    (3.529933721836475, 239, 190, 1.0, 4.529933721836475)
+pearson>=0,5,1.0486,1.0240
+pearson>=0,10,0.9678,0.9838
+pearson>=0,20,0.9244,0.9614
+pearson>=0,40,0.9023,0.9499
+
+Examples for pearson>=0 (k=20):
+  Best (abs_err, user, movie, true, pred):
+    (0.0, 7, 156, 5.0, 5.0)
+    (0.0, 90, 12, 5.0, 5.0)
+    (0.0, 90, 515, 5.0, 5.0)
+  Worst (abs_err, user, movie, true, pred):
+    (3.9579112598245265, 12, 200, 1.0, 4.9579112598245265)
+    (3.876859126552227, 239, 318, 1.0, 4.876859126552227)
+    (3.7329102940250873, 567, 50, 1.0, 4.732910294025087)
+
+=== Report Examples (best config: pearson>=0, k=40) ===
+pearson>=0, k=40: MSE=0.9023, RMSE=0.9499
+
+Nailed it:
+user=90, movie=515 (Boot, Das (1981)), true=5.0, pred=5.000, abs_err=0.000
+
+Way off:
+user=239, movie=318 (Schindler's List (1993)), true=1.0, pred=4.903, abs_err=3.903
