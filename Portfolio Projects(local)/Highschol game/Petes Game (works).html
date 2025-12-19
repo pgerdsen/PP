@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Game Template</title>
+    <!- -------------------------------------------------------------------------------------------------->
+    <!- This next line references the library of game functions teacher has written to help with game 
+    <!- development.  Students claim no credit for its development                                                     ->
+    <!- -------------------------------------------------------------------------------------------------->
+    <script type="text/javascript" src="gamefunctions_V4_0.js" ></script>
+    <style>* { padding: 0; margin: 0; } canvas { background: #eee; display: block; margin: 0 auto; }</style>
+    <title> Wario Run</title>
+   
+</head>
+<body>
+    <button id="button1"></button><button>
+    <canvas id="myCanvas" width="1200" height="1000" oncontextmenu="return false;" ></canvas>
+    <text id="debug"></text>
+   
+<script>
+//*********************************************** C R E D I T S ********************************************
+//** STUDENTS AND AP GRADERS - This is the section where you should provide credit for all resources ( ie 
+//** images & sound files) used in your game.  GRADERS, as the teacher I have provided a template as well as
+//** a game library ( referenced above ) as a starting point, but the student's game design, functions,
+//** algorithms, and abstrctions are theirs unless otherwise noted
+//** IMAGES - Image Name                  URL or Other Source          Credit Given
+//**    Warrio                                             	The Spriters Resource_ by Mister Mike	
+//**    Lava                                                  The Spriters Resource_ by Ngamer01	
+//**    Background image	                                               Neil
+//**    Blocks                                                   The Spriters Resoursce_byMcheif99	
+//** SOUNDS - Sound Name                  URL or Other Source          Credit Given
+    
+//*********************************************Game Functions **********************************************
+// functions STUDENT written that are unique to your game.  Best to list alphabetically.
+// If you had any assistance developing any of these functions please provide appropriate credit above the
+// function itself
+// **********************************************************************************************************
+    function WarioDeath(){
+        if( game.gameIterator % 1 == 0){
+        if(Wario.y  >= lava.y){
+                alert("You Lose!");
+                
+            }
+        }
+    }
+
+    function WarioWin(){
+        alert("You Win!")
+    }
+
+    
+
+
+    function DeclineBlocks(){
+        
+            for(c=0; c<PlatformColumns; c++) {
+                for(r=0; r<PlatformRows; r++) {
+                    if(Platforms1[c][r].y >= 950 || Platforms2[c][r].y >= 950 || Platforms1[c][r].y >= 950){
+                        Platforms1[c][r].y = -PlatformHeight;
+                        Platforms2[c][r].y = -PlatformHeight;
+                        Platforms3[c][r].y = -PlatformHeight;
+                    }
+                }
+            }
+            for(c=0; c<PlatformColumns; c++) {
+                for(r=0; r<PlatformRows; r++) {
+                    Platforms1[c][r].y += PlatformDeclineSpeed
+                    Platforms2[c][r].y += PlatformDeclineSpeed
+                    Platforms3[c][r].y += PlatformDeclineSpeed
+                    }
+            }
+    }
+
+    function RisingLava(){
+        if(lava.y >= 875){
+            lava.y -= moveSpeed;
+          }      
+    }
+
+    function invisBlocktracking(){
+        if( game.gameIterator % 1 == 0){
+            invisBlock1.x = (Wario.x) + 5
+            invisBlock1.y = (Wario.y) -3
+            invisBlock2.x = (Wario.x )+ 5
+            invisBlock2.y = (Wario.y) + Wario.useHeight
+            invisBlock3.x = (Wario.x) -3
+            invisBlock3.y = (Wario.y) + 5
+            invisBlock4.x = (Wario.x) + Wario.useWidth
+            invisBlock4.y = (Wario.y) + 5
+          
+    
+        }
+    }
+             
+    
+    function collisionDetection(blocks, Columns, Rows){
+                // check for top collision
+    for(c=0; c<Columns; c++) {
+        for(r=0; r<Rows; r++) {
+            for(i=0; i<invisBlockArray.length; i++){
+                if (invisBlockArray[i].checkCollisions(blocks[c][r])   ){
+                    if(i == 0){ //up
+                        Wario.y = blocks[c][r].y + blocks[c][r].useHeight + 2
+                        return
+                    }else if(i==1){ //down
+                        Wario.y < blocks[c][r].y - Wario.useHeight -2 
+                        Wario.dY = 0;
+                        Wario.isJumping = false 
+                        return
+                    }else if(i==2){ //left
+                        Wario.x = blocks[c][r].x + blocks[c][r].useWidth +2
+                        return
+                    }else if(i==3){ //right
+                        
+                        Wario.x = blocks[c][r].x - Wario.useWidth - 2
+                        return
+                
+                    }else{window.dy = 2 }
+            }
+          }
+        }
+    }
+}
+            
+  
+//***********************************************************************************************************
+//*** Event handlers
+//*** The following event handlers are written to use functions built
+//*** intop the game library.  As such, the default event handlers are TEACHER written.  However, student will
+//*** write all code that utlizes these event handlers - in Step #1 within the draw loop
+//*** If you want them to work differently than the library simply replace them with your own.  
+//*** By default the key handlers keep track of each key (unique names defined for each) //*** marking them 
+//*** as either true if pressed or false if not pressed
+    function keyDownHandler(e) {
+          myKeys.processDownKey(e);
+    }
+    function keyUpHandler(e) {
+        myKeys.processUpKey(e);
+    }
+    
+//*** The default mouse handlers are TEACHER written 
+//*** the mouse handlers keep track of both WHERE the mouse is at all times AND if any of the buttons is 
+//*** currenly pressed or not
+    function mouseMoveHandler(e) {
+        myKeys.processMouseMove(e);
+    }
+    function mouseUpHandler(e) {
+        myKeys.processMouseUp(e);
+    }
+    function mouseDownHandler(e) {
+        myKeys.processMouseDown(e);
+    }
+    
+//**********************Main draw function **************************
+//This is really the code that is run EVERY TIME we do a screen
+//refresh - unless otherwise noted this is STUDENT code
+//*******************************************************************
+       function draw() {  
+          
+        //***  STEP #1 Process any keystrokes / mouse movements
+        //*** If you have any Automated movements by your computer
+        //** "adversaries" I'd place that logic here too
+        //Process clicks - just checking the status of any keys I'm interested in
+        
+   
+        if (myKeys.rightArrow) {
+            
+            Wario.currentDir = 0;
+            if( game.gameIterator % 7 == 0){
+                Wario.advanceFrame();
+            }
+            
+            Wario.x+=dx
+        }
+        if (myKeys.leftArrow) {
+            
+            Wario.currentDir = 1;
+            if( game.gameIterator % 7 == 0){
+                Wario.advanceFrame();
+            }
+            Wario.x-=dx;
+           
+         }        
+  
+          
+       
+
+    //******************** STEP #2 Any game logic ***********************
+   
+           
+    //************* STEP #3 Draw all game objects on teh screen *********
+
+    //FIRST, Clear the Screen to prepare for a repaint   
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    //Then, draw the background image
+
+    castle.draw();
+    block.draw();
+  
+    //Now, draw any ACTIVE images
+    for(c=0; c<BasePlatformColumns; c++) {
+        for(r=0; r<BasePlatformRows; r++) {
+            Platforms0[c][r].draw();
+        }
+    }
+    for(c=0; c<PlatformColumns; c++) {
+        for(r=0; r<PlatformRows; r++) {
+            Platforms1[c][r].draw();
+        }
+    }
+    for(c=0; c<PlatformColumns; c++) {
+        for(r=0; r<PlatformRows; r++) {
+            Platforms2[c][r].draw();
+        }
+    }
+    for(c=0; c<PlatformColumns; c++) {
+        for(r=0; r<PlatformRows; r++) {
+            Platforms3[c][r].draw();
+        }
+    }
+   
+
+    if( game.gameIterator % 2 == 0){
+    setTimeout(DeclineBlocks, 8000);
+    }
+    if( game.gameIterator % 7 == 0){
+        lava.advanceFrame();  
+        
+        setTimeout(RisingLava, 8000 );  
+    }
+  
+    lava.draw();
+   
+    Wario.draw();
+    
+    for(i=0; i<4; i++){
+        invisBlockArray[i].draw();
+    }
+        invisBlocktracking();
+        setTimeout(WarioDeath, 8000)
+        setTimeout(WarioWin, 90000)
+       
+           collisionDetection(Platforms0  ,BasePlatformColumns,BasePlatformRows);
+            collisionDetection(Platforms1 , PlatformColumns,PlatformRows);
+           collisionDetection(Platforms2 ,PlatformColumns,PlatformRows);
+           collisionDetection(Platforms3 , PlatformColumns,PlatformRows);
+
+           if (myKeys.space && Wario.isJumping == false) {
+            Wario.currentDir = 2;
+            if( game.gameIterator % 7 == 0){
+                Wario.advanceFrame();
+            }
+            //Wario.y += -2
+            Wario.dY = -12;
+            Wario.isJumping = true
+            
+        } 
+    
+    Wario.y += Wario.dY;
+    Wario.dY += .4;
+   
+
+    game.gameIterate();//Teacher provided code - required for game library to work properly
+    requestAnimationFrame(draw); //Teacher provided code - Keep this line as it is required for a fluid repaining of the canvas 
+   
+       
+ 
+}
+
+//**************************************************************************************
+// *********************** Begin Main portion of program *******************************
+//**************************************************************************************
+//** You can actually think of this as the initialization phase of the program.  This is
+//** where you first load your images and create any variables you'll use throughout the
+//** rest of the program.
+//** ALL of this code is teacher provided and should not be changed.  Student code should
+//** go in STUDENT SECTION marked below
+//** Because this code is NOT in a function, it is the first thing to run and only runs 
+//** ONCE.  The very last thing this code does is call our game loop ( which is the 
+//** draw() funciton
+//***************************************************************************************
+
+//**DO NOT remove these two variables.  
+//**They are what help us "reference" the canvas and "paint" on it
+    var canvas = document.getElementById("myCanvas");
+    var ctx = canvas.getContext("2d");
+
+    //Variables that determine how fast (and if) the background moves.  If the background
+    //does NOT move set both to 0 - this is the default;
+  
+    
+    //Defining the EVENT LISTENERS - looks for any keybord key being pressed and released
+    //Note that it is in these EventHandler functions that you actually capture WHICH key was pressed or released.  For each key you
+    //are interested in you then perform specific actions.  In the approach I have here we are simply indicating if the key is pressed or
+    //not by changing the related keypressed variable to true or false.  Then we take actions later based on these variables
+
+    document.addEventListener("keydown", keyDownHandler, false);
+    document.addEventListener("keyup", keyUpHandler, false);
+    document.addEventListener("mousemove", mouseMoveHandler, false);
+    document.addEventListener("mousedown", mouseDownHandler, false);
+    document.addEventListener("mouseup", mouseUpHandler, false);
+    // Create the game Object - Always have this declared as it has
+    //important properies other areas depend upon
+    var game = new GameMaster();
+    // Object that holds all keypress and release data   
+    var myKeys = new KeysPresses(); 
+    
+    //****************STUDENT INITIALIZATION CODE SECTION ****************
+    // ************* Loading/creating your characters, background,
+    // ***  and terrain.  This is all what I would call "pre-processing
+    // *** Kind of all the setup work that must occur BEFORE we actually
+    // *** get into our game loop
+    // ******************************************************************
+
+    var MovingLava = 920
+    var LavaStretch = 200
+    var PlatformColumns = 6
+    var PlatformRows = 18
+    var BasePlatformX = 300
+    var BasePlatformY = 900
+    var PlatformOffsetLeft = 100
+    var PlatformOffsetTop = 100
+    var PlatformPadding = 175
+    var PlatformHeight = 50
+    var PlatformWidth = 50
+    var PlatformX = 0
+    var PlatformY = 500
+    var min = 20
+    var max = 100
+    var BasePlatformColumns = 48
+    var BasePlatformRows = 1
+    var PlatformDeclineSpeed = 3.5
+    var moveSpeed = 4
+    var dx= 3
+    var dy= 3
+    var WarrioX = 100 + dx
+    var WarrioY = 870 + dy
+
+
+    var imgCastle = new Image();
+    imgCastle.src = game.imageDir + "images.png";
+    var castle = new Sprite(0,0,280,166,1200,1000,imgCastle);
+    
+    
+    var imgLava = new Image();
+    imgLava.src = game.imageDir + "lava.png";
+    var lava = new SpriteSheet(0,MovingLava,320,105,1200,LavaStretch, 0, 7,imgLava);
+    
+    var imgBlocks = new Image();
+    imgBlocks.src = game.imageDir + "brick.png";
+    var block = new Sprite(0,500,199,199,50,50, imgBlocks);
+
+    var imgWario = new Image();
+    imgWario.src = game.imageDir + "Wario.png";
+    var Wario = new SpriteSheet(WarrioX, WarrioY, 25, 25, 25, 25, 3,3, imgWario);
+    Wario.canJump = true;
+    Wario.isJumping = false;
+    Wario.gravity = 1.5;
+    Wario.jumpMax = 175;
+    
+   
+  
+            var invisBlock1x = (Wario.x) + 5
+            var invisBlock1y = (Wario.y) -3
+            var invisBlock2x = (Wario.x )+ 5
+            var invisBlock2y = (Wario.y) + Wario.useHeight
+            var invisBlock3x = (Wario.x) -3
+            var invisBlock3y = (Wario.y) + 5
+            var invisBlock4x = (Wario.x) + Wario.useWidth
+            var invisBlock4y = (Wario.y) + 5
+    
+    var imginvisBlock1 = new Image();
+    imginvisBlock1.src =game.imageDir + "images.png"
+    var invisBlock1 = new Sprite(invisBlock1x, invisBlock1y,280,166,15,3,imginvisBlock1)
+
+    var imginvisBlock2 = new Image();
+    imginvisBlock2.src =game.imageDir + "images.png"
+    var invisBlock2 = new Sprite(invisBlock2x, invisBlock2y,280,166,15,3,imginvisBlock2)
+
+    var imginvisBlock3 = new Image();
+    imginvisBlock3.src =game.imageDir + "images.png"
+    var invisBlock3 = new Sprite(invisBlock3x, invisBlock3y,280,166,3,15,imginvisBlock3)
+
+    var imginvisBlock4 = new Image();
+    imginvisBlock4.src =game.imageDir + "images.png"
+    var invisBlock4 = new Sprite(invisBlock4x, invisBlock4y,280,166,3,15,imginvisBlock4)
+
+    var invisBlockArray = []
+        invisBlockArray[0] = invisBlock1
+        invisBlockArray[1] = invisBlock2
+        invisBlockArray[2] = invisBlock3
+        invisBlockArray[3] = invisBlock4
+  
+
+    
+
+    var Platforms0 = []
+    for(c=0; c<BasePlatformColumns; c++) {
+        Platforms0[c] = [];
+           var BasePlatformX = (c*(PlatformWidth))
+           var BasePlatformY = 900
+        for(r=0; r<BasePlatformRows; r++) {
+            Platforms0[c][r]= new Sprite(BasePlatformX ,BasePlatformY,199,199,PlatformWidth,PlatformHeight, imgBlocks)
+        }
+    }
+    
+    var Platforms1 = []
+    for(c=0; c<PlatformColumns; c++) {
+        Platforms1[c] = [];
+        for(r=0; r<PlatformRows; r++) {
+           var PlatformAlg = Math.floor(Math.random()*(100))
+           var PlatformX = (r*(PlatformWidth+PlatformPadding)-PlatformAlg)+PlatformOffsetLeft;
+           var PlatformY = (c*(PlatformHeight+PlatformPadding))+PlatformOffsetTop;
+            Platforms1[c][r] = new Sprite(PlatformX ,PlatformY,199,199,PlatformWidth,PlatformHeight, imgBlocks)
+        }
+    }
+    
+    var Platforms2 = []
+    for(c=0; c<PlatformColumns; c++) {
+        Platforms2[c] = [];
+        for(r=0; r<PlatformRows; r++) {
+           var PlatformAlg = Math.floor(Math.random()*(100))
+           var PlatformX = (r*(PlatformWidth+PlatformPadding)-PlatformAlg)+PlatformOffsetLeft;
+           var PlatformY = (c*(PlatformHeight+PlatformPadding))+PlatformOffsetTop;
+            Platforms2[c][r] = new Sprite((PlatformX - PlatformWidth) ,PlatformY,199,199,PlatformWidth,PlatformHeight, imgBlocks);
+        }
+    }
+    var Platforms3 = []
+    for(c=0; c<PlatformColumns; c++) {
+        Platforms3[c] = [];
+        for(r=0; r<PlatformRows; r++) {
+           var PlatformAlg = Math.floor(Math.random()*(100))
+           var PlatformX = (r*(PlatformWidth+PlatformPadding)-PlatformAlg)+PlatformOffsetLeft;
+           var PlatformY = (c*(PlatformHeight+PlatformPadding))+PlatformOffsetTop;
+            Platforms3[c][r] = new Sprite((PlatformX -(2*PlatformWidth)) ,PlatformY,199,199,PlatformWidth,PlatformHeight, imgBlocks);
+        }
+    }
+
+  
+    //****************************** Final Image Load Section ****************
+    //** OK - this is odd, but there is a reason for this...
+    //** images can take a while to load - at least in computer time, so
+    //** we want to make sure they have all loaded BEFORE, we actually 
+    //** start the game. For this reason we don't call the draw() function
+    //** ( which is our game loop) until the last image has loaded.  
+    //** The onload is an event is triggered when the last image variable 
+    //** imgPacman is actually loaded.  At that point we know it is safe call 
+    //** the draw() function - which starts our gameloop
+    //** **********************************************************************
+    var lastImage = new Image();
+    lastImage.src = game.imageDir + "lastImage.png";
+    lastImage.onload = function() {
+        //** put the image in the appropriate Sprite/Spritesheet
+        draw(); //This calls the draw() function - which is our game loop
+    };
+
+
+</script>
+
+</body>
+</html>
