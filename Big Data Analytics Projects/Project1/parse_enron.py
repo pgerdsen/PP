@@ -1,4 +1,4 @@
-hel#!/usr/bin/env python3
+#!/usr/bin/env python3
 """
 parse_enron_v2.py
 Preprocess raw CMU Enron maildir into plain-text documents for Map→Shuffle→Reduce.

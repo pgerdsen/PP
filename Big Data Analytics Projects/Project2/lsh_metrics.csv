@@ -1,0 +1,2 @@
+num_documents,total_possible_pairs,candidate_pairs,comparison_reduction_pct,mae_over_pairs,num_pairs_evaluated,k,num_perm,bands,rows,runtime_seconds
+1502,1127251,1164,99.89673994522958,0.005783949861704436,1164,3,100,20,5,6.928243160247803

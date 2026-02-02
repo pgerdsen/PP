@@ -1,0 +1,4 @@
+data_file,min_support,min_confidence,runtime_sec,peak_memory_mb,num_transactions,frequent_itemsets,max_itemset_size,num_rules,top_itemsets,top_rules
+Groceries_dataset.csv,0.005,0.0,0.02,52.32,50,10,1,0,{'whole milk'}:0.3200; {'rolls/buns'}:0.1400; {'yogurt'}:0.1200; {'other vegetables'}:0.1200; {'tropical fruit'}:0.1000,
+Groceries_dataset.csv,0.005,0.0,5.98,63.11,14963,126,2,74,{'whole milk'}:0.1579; {'other vegetables'}:0.1221; {'rolls/buns'}:0.1100; {'soda'}:0.0971; {'yogurt'}:0.0859,{'root vegetables'}->{'whole milk'}(conf=0.109); {'root vegetables'}->{'other vegetables'}(conf=0.076); {'bottled water'}->{'whole milk'}(conf=0.118)
+Groceries_dataset.csv,0.005,0.0,5.58,62.99,14963,126,2,74,{'whole milk'}:0.1579; {'other vegetables'}:0.1221; {'rolls/buns'}:0.1100; {'soda'}:0.0971; {'yogurt'}:0.0859,{'root vegetables'}->{'whole milk'}(conf=0.109); {'root vegetables'}->{'other vegetables'}(conf=0.076); {'bottled water'}->{'whole milk'}(conf=0.118)

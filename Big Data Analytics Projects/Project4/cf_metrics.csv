@@ -1,0 +1,2 @@
+baseline_rmse,best_model_rmse,baseline_improvement_pct,best_model,total_users,test_users,train_users,test_split_pct,total_ratings,train_ratings,hidden_test_ratings,hidden_ratings_pct,global_mean
+1.1111083250896563,0.9498960626798052,14.509139997384391,pearson_k40,943,189,943,20.0424178154825,100000,96220,3780,3.7800000000000002,3.5289648721679483

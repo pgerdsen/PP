@@ -15,3 +15,19 @@ out/
 .ipynb_checkpoints/
 .vscode/
 .idea/
+
+# Big Data Analytics Project datasets (too large for git)
+# Project 1 - Enron email dataset
+**/maildir/
+**/plain_v2/
+**/data:/
+
+# Project 3 - Groceries dataset
+Groceries_dataset.csv
+
+# Project 4 - MovieLens dataset
+u.data
+u.item
+
+# General data patterns
+*.dat

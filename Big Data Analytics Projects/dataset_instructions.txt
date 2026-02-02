@@ -1,0 +1,68 @@
+DATASETS USED IN THESE PROJECTS
+
+This repository does NOT include raw datasets for size and licensing reasons.
+Follow the instructions below to download each dataset used in the projects.
+
+------------------------------------------------------------
+1. MOVIELENS 100K (COLLABORATIVE FILTERING RECOMMENDER)
+------------------------------------------------------------
+
+Used in: user-based and item-based collaborative filtering (KNN with cosine/Pearson
+similarity, RMSE evaluation).
+
+- Dataset name: MovieLens 100K
+- Provider: GroupLens Research
+- Official page: https://grouplens.org/datasets/movielens/100k/
+- Direct download: https://files.grouplens.org/datasets/movielens/ml-100k.zip
+- Size: ~5 MB
+- Description: 100,000 ratings from 943 users on 1,682 movies. Includes basic user
+  demographics and multiple predefined train/test splits.
+
+How to use with this repo:
+1. Download ml-100k.zip from the link above.
+2. Unzip into a local folder, for example:
+   - data/movielens/ml-100k/
+3. Update any config or paths in the notebooks/scripts (if needed) so they point
+   to that folder.
+
+Refer to the official MovieLens license and terms of use on the GroupLens site
+before using the data.
+
+------------------------------------------------------------
+2. ENRON EMAIL DATASET (MAPREDUCE-STYLE TEXT PROCESSING)
+------------------------------------------------------------
+
+Used in: MapReduce-style text processing pipeline (batch accumulation, CSV spill,
+top-K vocabulary extraction, tokenization/normalization/stop word removal).
+
+- Dataset name: Enron Email Dataset
+- Provider: Carnegie Mellon University (CMU)
+- Official page: https://www.cs.cmu.edu/~enron/
+- Primary download (tar.gz): see the "Download" section on the page above
+- Size: ~1.7 GB (compressed, depending on version)
+- Description: ~500,000 emails from ~150 Enron employees, organized in folders.
+  Widely used for email/text mining research.
+
+How to use with this repo:
+1. Visit https://www.cs.cmu.edu/~enron/ and download the recommended current version
+   of the corpus (tarred/gzipped archive).
+2. Extract into a local directory, for example:
+   - data/enron/
+3. Update any config or paths in the notebooks/scripts (if needed) so they point
+   to that folder.
+
+Be sure to review and comply with the dataset’s license and usage restrictions
+on the CMU page.
+
+------------------------------------------------------------
+3. OTHER DATASETS / SIMULATED ENVIRONMENTS
+------------------------------------------------------------
+
+Some projects (e.g., adversarial game AI using Expectimax search) may rely on:
+- Provided course frameworks or game environments, or
+- Synthetic / generated data
+
+For these, refer to the specific project subfolder’s README or notebook for
+details on how to run the code and any external dependencies. If the environment
+or data is not publicly distributable, only the code and instructions are
+included here.
