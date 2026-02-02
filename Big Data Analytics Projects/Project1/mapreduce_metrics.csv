@@ -1,0 +1,2 @@
+runtime_seconds,peak_memory_mb,spill_threshold,num_files_processed,num_spills,num_partial_files,unique_words,total_word_count
+897.6666879653931,138.76171875,50000,236276,5,5,441675,28170378
